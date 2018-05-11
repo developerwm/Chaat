@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="chatboot.obrabo.com.chatboot.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+        <com.github.rahatarmanahmed.cpv.CircularProgressView
+            android:id="@+id/pComments"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:cpv_animAutostart="true"
+            app:cpv_indeterminate="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rectComments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_above="@+id/separator">
+        </android.support.v7.widget.RecyclerView>
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_above="@+id/linearBottom"
+            android:background="@color/colorGrayDefault" />
+
+        <LinearLayout
+            android:id="@+id/linearBottom"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="6dp"
+            android:background="@color/colorWhite"
+            android:layout_alignParentBottom="true">
+
+            <EditText
+                android:id="@+id/edtMsg"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:hint="@string/message"
+                android:layout_marginLeft="8dp"
+                android:inputType="textMultiLine|textCapSentences"
+                android:text=""
+                android:backgroundTint="@color/colorWhite"
+                android:layout_toLeftOf="@+id/fabAddMessage"
+                android:layout_alignParentLeft="true" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabAddMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_send_two"
+                app:fabSize="mini"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

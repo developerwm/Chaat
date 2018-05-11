@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "486327281783",
+    "firebase_url": "https://chatboot-930e7.firebaseio.com",
+    "project_id": "chatboot-930e7",
+    "storage_bucket": "chatboot-930e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486327281783:android:b28eca1e93e55824",
+        "android_client_info": {
+          "package_name": "chatboot.obrabo.com.chatboot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486327281783-s2btq9acmbcf9c7rvg49iujphj8jhpbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_guFwcsktlMT_DuA3vPyr0gTXYa1vbig"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
