@@ -36,6 +36,7 @@ import com.google.gson.JsonElement;
 import com.lotadata.moments.Moments;
 import com.lotadata.moments.MomentsClient;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import ai.api.AIListener;
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements AIListener {
     protected String mPayloadSent = "# Signals sent = ";
     private static final String PAYLOAD_COUNT_PREFS = "payloadCount.prefs";
     private static final String PAYLOAD_COUNT_KEY = "payloadCount";
+    Map<String, Object> eventsMap;
+    TextView textView22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,15 +98,17 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+       // textView22.setText("dsdsad");
         initViews();
         //Mandatory permissions
         mPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        mPermissions.add(Manifest.permission.RECORD_AUDIO);
         //Optional permissions
         //mPermissions.add(Manifest.permission.READ_PHONE_STATE);
        // mPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
 
-       // registerReceiver();
-       // checkPermissionsAndLaunch();
+        registerReceiver();
+        checkPermissionsAndLaunch();
     }
 
     private void initViews(){
@@ -173,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                     commentsModel.setTypeUser("user");
                     commentsModel.setMessage(edtMsg.getText().toString());
                     commentsAdapter.addComment(commentsModel, rectComments);
+                    saveDataLotaData(dataQuestion[1].toLowerCase(), edtMsg.getText().toString());
                     edtMsg.setText("");
 
                     commentsModel = new CommentsModel();
@@ -197,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                     commentsModel.setTypeUser("user");
                     commentsModel.setMessage(edtMsg.getText().toString());
                     commentsAdapter.addComment(commentsModel, rectComments);
+                    saveDataLotaData(dataQuestion[2].toLowerCase(), edtMsg.getText().toString());
                     edtMsg.setText("");
 
                     commentsModel = new CommentsModel();
@@ -213,10 +220,17 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                     }, 200);
 
                     position++;
-                    Log.e("position-==",""+position);
                     break;
                 }
             }
+    }
+
+    private void saveDataLotaData(String userDes, String systemDesc){
+        Map<String, Object> eventsMap;
+        eventsMap = new HashMap<String, Object>();
+        eventsMap.put("user event", userDes);
+        eventsMap.put("system event", systemDesc);
+        mMomentsClient.recordEvent(eventsMap);
     }
 
     @Override
@@ -308,6 +322,8 @@ public class MainActivity extends AppCompatActivity implements AIListener {
             commentsAdapter.updateImage(commentsModel, rectComments, positionImage, dataQuestion[4].toLowerCase());
             chatBoot.setImage(imageUri.toString());
 
+            saveDataLotaData("Imagem picture", imageUri.toString());
+
             FirebaseDatabase database =  FirebaseDatabase.getInstance();
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("chatBoot");
             String userId = mDatabase.push().getKey();
@@ -363,8 +379,8 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                 count++;
                 //We can't ensure that onDestroy will be called. So, update counter now.
                 updatePayloadSentCount();
-                Toast.makeText(mContext, "Signal sent", Toast.LENGTH_SHORT).show();
-                textView.setText(mPayloadSent+count);
+              //  Toast.makeText(mContext, "Signal sent", Toast.LENGTH_SHORT).show();
+               // textView.setText(mPayloadSent+count);
             }
         };
 
@@ -450,11 +466,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -462,4 +474,35 @@ public class MainActivity extends AppCompatActivity implements AIListener {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        if (mMomentsClient != null) {
+            Toast.makeText(this,"See you!",Toast.LENGTH_LONG).show();
+            mMomentsClient.recordEvent("Stop SDK");
+            mMomentsClient.disconnect();
+        }
+        updatePayloadSentCount();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
 }
